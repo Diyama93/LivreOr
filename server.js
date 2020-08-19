@@ -29,6 +29,8 @@ app.post('/', (request, response) =>{
     if(request.body.message = undefined || request.body.message === ''){
         request.flash ('error', "Vous n'avez pas posté de message")
         response.redirect('/')
+    } else {
+        
     }
 })
 
