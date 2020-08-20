@@ -1,7 +1,7 @@
 let connection = require('../config/db')
 let moment = require('../config/moment')
 
-class Message{
+class Message {
     //créer un constructeur qui prend un enrégistrement
     constructor (row) {
         this.row = row
@@ -19,7 +19,7 @@ class Message{
 
 
     static create (content, cb) {
-        //connexion à la bd et sauvé l'enré
+        //connexion à la bd et sauvé l'enré        
         connection.query('INSERT INTO messages SET content = ?, created_at = ?', [content, new Date()], (err, result) =>{
             if (err) throw err
             cb(result)
