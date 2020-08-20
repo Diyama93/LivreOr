@@ -3,6 +3,7 @@ let express = require('express')
 let app = express()
 let bodyParser = require('body-parser')
 let session = require('express-session')
+const { request } = require('express')
 
 //Moteur de template
 app.set('view engine', 'ejs')
@@ -21,8 +22,11 @@ app.use(require('./middlewares/flash'))
 
 //Routes
 app.get('/', (request, response) =>{ 
-    console.log(request.session)  
-    response.render('pages/index')
+    //console.log(process.env.NODE_ENV)
+    let Message = require('./models/message')
+    Message.all( function (messages) {
+        response.render('pages/index', {messages: messages})
+    })    
 })
 
 app.post('/', (request, response) =>{
@@ -30,8 +34,19 @@ app.post('/', (request, response) =>{
         request.flash ('error', "Vous n'avez pas posté de message")
         response.redirect('/')
     } else {
-        
+        let Message = require('./models/message')
+        Message.create(request.body.message, function() {
+            request.flash('success', "Message envoyé :) Merci")
+            response.redirect('/')
+        })
     }
 })
+
+app.get('/message/:id', (request, response) =>{
+    let Message = require('./models/message')
+    Message.find(request.params.id, function(message){
+        response.render('messages/show', {message: message})
+    })
+} )
 
 app.listen(8080)

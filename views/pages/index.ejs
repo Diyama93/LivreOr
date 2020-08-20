@@ -9,4 +9,23 @@
         <i class="icon edit"></i>Envoyer
     </button>
 </form>
+
+<div class="ui comments" >
+    <h3 class="ui dividing header"> Commentaires </h3>
+    <% for (message of messages) { %>
+        <div class="comment" >
+            <a class="avatar" href="/message/<%= message.id %>">
+                <img src="/assets/img/avatar.png">
+            </a>
+            <div class="content">
+                <div class="metadata">
+                    <div class="date">
+                        <%= message.created_at.fromNow() %>
+                    </div>
+                </div>
+                <div class="text"><%= message.content %></div>
+            </div>
+        </div>
+    <% } %>
+</div>
 <%- include ('footer') -%>
